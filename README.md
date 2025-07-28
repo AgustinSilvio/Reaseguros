@@ -28,8 +28,7 @@ This repository contains a visualization and contract quotation project using Py
 
 ## Requirements
 
-- Python 3.8 o superior
-- Jupyter Notebook
+- Python 3.8 or superior
 -  Libraries:
   - pandas
   - numpy
