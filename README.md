@@ -23,7 +23,9 @@
 
 # Introduction
 
-This repository contains a visualization and contract quotation project using Python and Jupyter Notebook. The main objective is to organize the risks that accumulate, be able to price facultative reinsurance contracts, graphically see the responsibility of each participant, and settle claims based on each one's participation.
+This repository presents a Python-based project focused on the visualization and pricing of facultative reinsurance contracts. Its primary goal is to help organize and analyze the accumulation of risks, accurately price reinsurance agreements, and clearly illustrate the distribution of responsibilities among participants. Additionally, it provides tools to simulate and settle claims based on each party’s share of liability.
+
+Through a combination of data structures, pricing models, and visualizations, this project aims to support actuaries, underwriters, and analysts in understanding the financial dynamics of facultative reinsurance.
 
 
 ## Requirements
@@ -65,14 +67,21 @@ The loss data used in her original analysis "differs significantly from what is 
 A disadvantage of the method is that it creates a zone in each layer where losses approach, but do not reach, the next level of retention.
 
 
-clasificacion_valores = {
-    'B',      # (score < 60)
-    'AB',    # (60 <= score < 80)  
-    'A'       # (80 <= score <= 100)
-}
+**Ruth table:**
+[Ruth Tables.xlsx](https://github.com/user-attachments/files/21478287/Ruth.Tables.xlsx)
+
+
 
 # Risk
+**Risk classification criteria:**
 
+-'B',      # (score < 60)
+    
+-'AB',     # (60 <= score < 80)  
+    
+-'A'       # (80 <= score <= 100)
+
+For this example it is 2 risks with three cobertures each one for fire insurance.
                                            
 | Index | Start_date | Risk | Coberture | Insured_a | pure_prime_rate_per_thousand | %PML | $PML    | score_risk | MFL      | Deductible | %Retained | Type                   | Character_of_benefit         |
 |-------|------------|------|-----------|-----------|-----------------------------|------|---------|------------|----------|------------|-----------|------------------------|------------------------------|
@@ -83,21 +92,21 @@ clasificacion_valores = {
 | 4     | 8/8/2025   | 2    | Content   | 3000000   | 11.0                        | 60%  | 1800000 | 100        | 3000000  | 0          | 100%      | Absolute risk coverage | Additional and independent   |
 | 5     | 8/8/2025   | 2    | Machinery | 2400000   | 6.0                         | 60%  | 1440000 | 100        | 2400000  | 0          | 100%      | Absolute risk coverage | Additional and independent   |
 
-For this example it is 2 risks with three cobertures each one for fire insurance.
+
 
  Probable Maximum Loss (PML) refers to the greatest financial loss an insurance company is likely to face from a particular policy, assuming all protective measures—like fire suppression systems or flood defenses—function as intended. It reflects a severe but plausible scenario, not the absolute worst. This estimate is typically less than the Maximum Foreseeable Loss (MFL), which accounts for situations where those safety systems fail, leading to more extensive damage. 
  Insured_a is Insured amount.
  The type is for insurance structure. The absolute risk coverage or First-Loss is a structure where the insurer agrees to pay up to a fixed insured amount, regardless of the actual value of the loss.
- Others alternatives are for example: *Proporcionl insurance* (Indemnity based) that pays based on the actual value of the loss; *Parametric insurance* that payout when a predefined event or metric occurs.
+ Others alternatives are for example: *Proporcional insurance* (Indemnity based) that pays based on the actual value of the loss; *Parametric insurance* that payout when a predefined event or metric occurs.
 
- The character of the benefit is really important because it can determinate if diferrent coverages can be accumulative if the caracter is additional and independant. If the caracter is sustitutive from other coverage the max amount to pays is not the sum of the amounts of each coverage is the max amount of the coverages.
+ The character of the benefit is really important because it can determinate if diferrent coverages can be accumulative if the character is additional and independant. If the character is sustitutive from other coverage the max amount to pays is not the sum of the amounts of each coverage is the max amount of the coverages.
 
 Example of risk clasisfication.
 'B',      # (score < 60)
 'AB',    # (60 <= score < 80)  
 'A'       # (80 <= score <= 100)
 
-It can used machine learning depending on the features of each risk
+It can used machine learning depending on the features of each risk.
 
 ## Defining the Structure of Responsibilities
 The structure of responsibilities in risk management is not always fixed. For instance, in reinsurance contracts based on an accident/year model, the terms and coverage can vary from one year to the next. Therefore, any framework established should be considered provisional and subject to change depending on contractual updates or evolving risk scenarios.
@@ -147,7 +156,7 @@ results = calculator.calculate_multiple_risks_premiums(risk_layers_dict)
 
 
 # Loss Adjustment and Liability Distribution
-The way responsibilities are defined allows for the automatic distribution of loss amounts. This allocation is typically derived from the responsibility framework—often represented in a dedicated dataframe—rather than from the detailed coverage information. However, the final result may vary due to factors such as deductibles and the specific coverage limits associated with each policy. These elements can influence how the loss is ultimately shared among the involved parties.
+The way responsibilities are defined allows the automatic distribution of loss amounts. This allocation is typically derived from the responsibility framework—often represented in a dedicated dataframe—rather than from the detailed coverage information. However, the final result may vary due to factors such as deductibles and the specific coverage limits associated with each policy. These elements can influence how the loss is ultimately shared among the involved parties.
 In the following example the loss for risk 1 is $9,500,000.00
 ~~~
 df_result = distribute_loss_by_layers(9_500_000, dfcapasriesgo1)
